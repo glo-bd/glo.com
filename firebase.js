@@ -52,7 +52,7 @@ async function loadProducts() {
 
   <h3>${product.Name || "GLO Product"}</h3>
 
-  <p class="price">Taka${product.Price || 100}</p>
+  <p class="price">৳${product.Price || 0}</p>
 
   <button>Add to Cart</button>
 `;
