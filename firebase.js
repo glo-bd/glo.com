@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 import {
   getFirestore,
   collection,
@@ -18,9 +19,58 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productsRef = collection(db, "products");
-const snapshot = await getDocs(productsRef);
 
-snapshot.forEach((doc) => {
-  console.log(doc.id, doc.data());
-});
+// Load products from Firebase
+async function loadProducts() {
+
+  const container = document.getElementById("products-container");
+
+  if (!container) return;
+
+  try {
+
+    const productsRef = collection(db, "products");
+    const snapshot = await getDocs(productsRef);
+
+    container.innerHTML = "";
+
+    if (snapshot.empty) {
+      container.innerHTML = "<p>No products available.</p>";
+      return;
+    }
+
+    snapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      const card = document.createElement("div");
+
+      card.className = "product-card";
+
+      card.innerHTML = `
+        <img src="${product.image || ""}" alt="${product.name || "GLO Product"}">
+
+        <h3>${product.name || "GLO Product"}</h3>
+
+        <p class="price">৳${product.price || 0}</p>
+
+        <button>Add to Cart</button>
+      `;
+
+      container.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error("Firebase error:", error);
+
+    container.innerHTML =
+      "<p>Unable to load products right now.</p>";
+
+  }
+}
+
+
+// Start loading products
+loadProducts();
