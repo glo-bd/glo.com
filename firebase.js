@@ -50,11 +50,31 @@ async function loadProducts() {
       card.className = "product-card";
 
       card.innerHTML = `
-        <h3>${product.Name || product.name || "GLO Product"}</h3>
-        <p class="price">৳${product.Price || product.price || 0}</p>
-        <p>${product.Description || product.description || ""}</p>
-        <p>Stock: ${product.Stock === true || product.stock === true ? "Available" : "Out of Stock"}</p>
-      `;
+  <div class="product-image">
+    <img 
+      src="${product.Image || product.image || ""}" 
+      alt="${product.Name || product.name || "GLO Product"}"
+    >
+  </div>
+
+  <div class="product-info">
+    <h3>${product.Name || product.name || "GLO Product"}</h3>
+
+    <p class="price">
+      ৳${product.Price || product.price || 0}
+    </p>
+
+    <p class="description">
+      ${product.Description || product.description || ""}
+    </p>
+
+    ${
+      (product.Stock === true || product.stock === true)
+        ? `<button class="add-cart-btn">Add to Cart</button>`
+        : `<button class="add-cart-btn" disabled>Stock Out</button>`
+    }
+  </div>
+`;
 
       container.appendChild(card);
 
