@@ -19,47 +19,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-
-// Load products from Firebase
 async function loadProducts() {
 
   const container = document.getElementById("products-container");
 
-  if (!container) return;
+  if (!container) {
+    alert("products-container not found");
+    return;
+  }
 
   try {
 
-    const productsRef = collection(db, "products");
-    const snapshot = await getDocs(productsRef);
-
-    container.innerHTML = "";
+    const snapshot = await getDocs(collection(db, "products"));
 
     if (snapshot.empty) {
-      container.innerHTML = "<p>No products available.</p>";
+      container.innerHTML = "<h3>No products found</h3>";
       return;
     }
+
+    container.innerHTML = "";
 
     snapshot.forEach((doc) => {
 
       const product = doc.data();
-      
-      console.log("FIREBASE PRODUCT:", product);
+
       alert(JSON.stringify(product));
-      
-      
+
       const card = document.createElement("div");
 
       card.className = "product-card";
 
       card.innerHTML = `
-  <img src="${product.Image || ""}" alt="${product.Name || "GLO Product"}">
-
-  <h3>${product.Name || "GLO Product"}</h3>
-
-  <p class="price">৳${product.Price || 0}</p>
-
-  <button>Add to Cart</button>
-`;
+        <h3>${product.Name || product.name || "GLO Product"}</h3>
+        <p class="price">৳${product.Price || product.price || 0}</p>
+        <p>${product.Description || product.description || ""}</p>
+        <p>Stock: ${product.Stock === true || product.stock === true ? "Available" : "Out of Stock"}</p>
       `;
 
       container.appendChild(card);
@@ -68,17 +62,9 @@ async function loadProducts() {
 
   } catch (error) {
 
-  console.error("Firebase error:", error);
-
-  container.innerHTML = `
-    <p style="color:red;">
-      Firebase Error: ${error.message}
-    </p>
-  `;
+    alert("Firebase Error: " + error.message);
 
   }
 }
 
-
-// Start loading products
 loadProducts();
