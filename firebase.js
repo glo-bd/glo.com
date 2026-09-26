@@ -48,13 +48,14 @@ async function loadProducts() {
       card.className = "product-card";
 
       card.innerHTML = `
-        <img src="${product.image || ""}" alt="${product.name || "GLO Product"}">
+  <img src="${product.Image || ""}" alt="${product.Name || "GLO Product"}">
 
-        <h3>${product.name || "GLO Product"}</h3>
+  <h3>${product.Name || "GLO Product"}</h3>
 
-        <p class="price">৳${product.price || 0}</p>
+  <p class="price">৳${product.Price || 0}</p>
 
-        <button>Add to Cart</button>
+  <button>Add to Cart</button>
+`;
       `;
 
       container.appendChild(card);
