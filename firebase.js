@@ -42,7 +42,9 @@ async function loadProducts() {
     snapshot.forEach((doc) => {
 
       const product = doc.data();
-
+      
+      console.log("FIREBASE PRODUCT:", product);
+      
       const card = document.createElement("div");
 
       card.className = "product-card";
