@@ -13,3 +13,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const productsRef = collection(db, "products");
+
+const snapshot = await getDocs(productsRef);
+
+snapshot.forEach((doc) => {
+  console.log(doc.id, doc.data());
+});
