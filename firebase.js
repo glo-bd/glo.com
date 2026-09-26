@@ -63,10 +63,13 @@ async function loadProducts() {
 
   } catch (error) {
 
-    console.error("Firebase error:", error);
+  console.error("Firebase error:", error);
 
-    container.innerHTML =
-      "<p>Unable to load products right now.</p>";
+  container.innerHTML = `
+    <p style="color:red;">
+      Firebase Error: ${error.message}
+    </p>
+  `;
 
   }
 }
